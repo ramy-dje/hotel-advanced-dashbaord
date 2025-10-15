@@ -1,0 +1,28 @@
+// Some static data
+
+export const startHoursArray = [
+  { value: "12:00AM", title: "12:00AM (00:00)" },
+  { value: "1:00AM", title: "1:00AM (01:00)" },
+  { value: "2:00AM", title: "2:00AM (02:00)" },
+  { value: "3:00AM", title: "3:00AM (03:00)" },
+  { value: "4:00AM", title: "4:00AM (04:00)" },
+  { value: "5:00AM", title: "5:00AM (05:00)" },
+  { value: "6:00AM", title: "6:00AM (06:00)" },
+  { value: "7:00AM", title: "7:00AM (07:00)" },
+  { value: "8:00AM", title: "8:00AM (08:00)" },
+  { value: "9:00AM", title: "9:00AM (09:00)" },
+  { value: "10:00AM", title: "10:00AM (10:00)" },
+  { value: "11:00AM", title: "11:00AM (11:00)" },
+  { value: "12:00PM", title: "12:00PM (12:00)" },
+  { value: "1:00PM", title: "1:00PM (13:00)" },
+  { value: "2:00PM", title: "2:00PM (14:00)" },
+  { value: "3:00PM", title: "3:00PM (15:00)" },
+  { value: "4:00PM", title: "4:00PM (16:00)" },
+  { value: "5:00PM", title: "5:00PM (17:00)" },
+  { value: "6:00PM", title: "6:00PM (18:00)" },
+  { value: "7:00PM", title: "7:00PM (19:00)" },
+  { value: "8:00PM", title: "8:00PM (20:00)" },
+  { value: "9:00PM", title: "9:00PM (21:00)" },
+  { value: "10:00PM", title: "10:00PM (22:00)" },
+  { value: "11:00PM", title: "11:00PM (23:00)" },
+];

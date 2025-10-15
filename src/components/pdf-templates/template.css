@@ -1,0 +1,9 @@
+.food-menu-lines {
+  top: 21px;
+  background-position: bottom;
+  background-image: linear-gradient(to right,
+      #000000 25%,
+      rgba(255, 255, 255, 0) 0%);
+  background-size: 8px 2px;
+  background-repeat: repeat-x;
+}
