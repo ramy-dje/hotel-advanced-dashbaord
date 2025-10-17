@@ -4,10 +4,6 @@ const withNextIntl = createNextIntlPlugin();
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  typescript: {
-    // !! WARNING: This allows the build to succeed even if there are TS errors
-    ignoreBuildErrors: true,
-  },
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -25,5 +21,6 @@ const nextConfig = {
     ],
   },
 };
+
 
 export default withNextIntl(nextConfig);

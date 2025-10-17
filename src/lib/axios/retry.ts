@@ -10,14 +10,14 @@ function handleRetryLogic(axios: AxiosInstance): AxiosInstance {
   // handle the logic with axios-retry
   axiosRetry(axios, {
     // times
-    retries: 5,
+    retries: 1,
     //
     shouldResetTimeout: true,
     // delay
     retryDelay: (count, error) => {
       // if network error
       if (error.code == "ERR_NETWORK" && count == 1)
-        return 400; // => 800ms to retry
+        return 200; // => 800ms to retry
       else return 50; // 50ms to retry
     },
     // condition

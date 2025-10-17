@@ -14,9 +14,22 @@ interface StoreType {
   clearAuth: () => void;
 }
 
+const defaultFakeUser: UserInterfaceType = {
+  id: "local-guest",
+  role: "User",
+  pic: "",
+  phoneNumber: [],
+  location: { country: "", state: "", city: "", zipcode: "" },
+  gender: "male",
+  username: "guest",
+  fullName: "Guest User",
+  email: "guest@example.local",
+};
+
 const useAuthStore = create<StoreType>((set) => ({
-  auth: false,
-  user: null,
+  // default to authenticated so UI renders all buttons and navigation
+  auth: true,
+  user: defaultFakeUser,
 
   //   methods
 

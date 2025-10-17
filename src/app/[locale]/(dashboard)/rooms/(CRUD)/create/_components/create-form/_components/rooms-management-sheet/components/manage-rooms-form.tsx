@@ -968,6 +968,7 @@ const TableRow: React.FC<TableRowProps> = ({
     </tr>
   );
 };
+export default TableRow;
 
 
 

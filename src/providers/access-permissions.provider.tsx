@@ -22,16 +22,12 @@ interface Props {
 
 export default function AccessPermissionsProvider({
   children,
-  access_info,
 }: Props) {
-  // the access info memoized
-  const access = useMemo(() => {
-    return access_info;
-  }, []);
+
 
   return (
-    <AccessPermissionsCTX.Provider value={access}>
+    <div>
       {children}
-    </AccessPermissionsCTX.Provider>
+    </div>
   );
 }

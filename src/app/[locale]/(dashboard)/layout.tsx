@@ -16,39 +16,9 @@ interface Props {
 
 // The Dashboard layout
 export default async function DashboardLayout({ children }: Props) {
-  // check the auth of this user
-  const user = await getServerAuth();
-
-  // if the user doesn't exist
-  if (!user) {
-    // redirect to the login page
-    return redirect("/login");
-  }
-
-  // check the user permissions
-  const access_info = await cachedGetServerPermissions();
-
-  if (!access_info) {
-    // redirect to the login page
-    return redirect("/login");
-  }
-
-  // check if the user's account is active
-  if (!access_info.active) {
-    // if the user's account isn't active
-    return redirect("https://hotelralf.com");
-  }
-
-  // check if the user has the required permission to access the dashboard
-  const have_access = access_info.permissions.includes("panel:access");
-
-  // if the user hasn't the required permission to access the dashboard redirect him to the website
-  if (!have_access) {
-    return redirect("https://hotelralf.com");
-  }
 
   return (
-    <AccessPermissionsProvider access_info={access_info}>
+    <div>
       <main className="w-full  min-h-screen flex-grow">
         {/* sidebar */}
         <aside className="bottom-0 start-0 h-full w-[270px] border-r border-border bg-background 2xl:w-72 fixed hidden xl:block">
@@ -66,6 +36,6 @@ export default async function DashboardLayout({ children }: Props) {
           </div>
         </div>
       </main>
-    </AccessPermissionsProvider>
+    </div>
   );
 }

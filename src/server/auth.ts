@@ -1,53 +1,30 @@
 import UserInterfaceType from "@/interfaces/user.interfaces";
-import axios from "axios";
 import { cookies } from "next/headers";
+
 // The server side auth
 
-// server url
-const serverURL = process.env.NEXT_PUBLIC_BASE_URL;
-const access_bearer_token = process.env.NEXTSERVER_AUTH_BEARER_TOKEN;
+// Provide a default fake user for server components so pages render freely
+const defaultServerUser: UserInterfaceType = {
+  id: "server-guest",
+  role: "User",
+  pic: "",
+  phoneNumber: [],
+  location: { country: "", state: "", city: "", zipcode: "" },
+  gender: "male",
+  username: "guest",
+  fullName: "Guest User",
+  email: "guest@example.local",
+};
 
 // Get Server Auth
 export const getServerAuth = async (): Promise<UserInterfaceType | null> => {
-  const coo = await cookies();
-
-  // get the tokens
-  const acc_token = coo.get("acc-t")?.value || null;
-  const ref_token = coo.get("ref-t")?.value || null;
-
-  // if of the tokens doesn't exist
-
-  if (!acc_token || !ref_token) {
-    return null;
-  }
-
-  // check the token from the main server
   try {
-    // send req to validate the cookies of the user
-    const res = await axios.post<{
-      authenticated: boolean;
-      data: UserInterfaceType;
-    }>(
-      "auth/server/is-authenticated",
-      {
-        access_token: acc_token,
-        refresh_token: ref_token,
-      },
-      {
-        baseURL: serverURL,
-        headers: {
-          Authorization: `Bearer ${access_bearer_token}`,
-        },
-      }
-    );
-    // if the cookies are valid
-    if (res.status == 200 && res.data.authenticated && res.data.data) {
-      return res.data.data;
-    } else {
-      return null;
-    }
-  } catch (err) {
-    console.log("AUTH-CHECK ERROR :", err);
-    return null;
+    // Do not call external auth API; return a permissive fake user so UI is visible
+  // If needed, cookies could be inspected, but in permissive mode we ignore them
+  await cookies();
+  // Return the default permissive user
+    return defaultServerUser;
+  } catch {
+    return defaultServerUser;
   }
 };

@@ -49,9 +49,7 @@ export default async function RootLayout({
             <ThemeProvider>
               {/* Auth Provider */}
               {/* Toaster provider */}
-              <ToasterProvider>
-                <AuthProvider>{children}</AuthProvider>
-              </ToasterProvider>
+              <ToasterProvider>{children}</ToasterProvider>
             </ThemeProvider>
             {/* Redux Store Provider */}
           </NextIntlClientProvider>
