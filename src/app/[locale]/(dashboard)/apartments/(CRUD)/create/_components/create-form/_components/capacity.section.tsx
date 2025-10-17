@@ -1,5 +1,5 @@
 "use client";
-import React from 'react'; // Added explicit React import as a potential safeguard
+import React from "react"; // Added explicit React import as a potential safeguard
 import {
   CreationFormSection,
   CreationFormSectionContent,
@@ -23,8 +23,14 @@ import {
 import BedroomBedConfiguration from "./_components/bedroom-bed-configuration";
 
 // Interface for a selected bed within a bedroom
-interface Bed { id: string; name: string; iconPath: string; }
-interface SelectedBed extends Bed { quantity: number; }
+interface Bed {
+  id: string;
+  name: string;
+  iconPath: string;
+}
+interface SelectedBed extends Bed {
+  quantity: number;
+}
 
 const CreateRoom_Capacity_Section = forwardRef<HTMLDivElement, { id: string }>(
   ({ id }, ref) => {
@@ -56,7 +62,7 @@ const CreateRoom_Capacity_Section = forwardRef<HTMLDivElement, { id: string }>(
         return;
       }
 
-      setBedsByBedroom(prevBeds => {
+      setBedsByBedroom((prevBeds) => {
         const newBedsByBedroom = [...prevBeds]; // Create a mutable copy
 
         // If the number of bedrooms decreased, truncate the array
@@ -73,13 +79,16 @@ const CreateRoom_Capacity_Section = forwardRef<HTMLDivElement, { id: string }>(
     }, [numberOfBedrooms]); // Rerun this effect whenever numberOfBedrooms changes
 
     // Callback function to save the bed configuration for a specific bedroom
-    const handleSaveBedroomBeds = useCallback((index: number, beds: SelectedBed[]) => {
-      setBedsByBedroom(prevBeds => {
-        const updatedBeds = [...prevBeds];
-        updatedBeds[index] = beds; // Update the beds for the specific bedroom index
-        return updatedBeds;
-      });
-    }, []);
+    const handleSaveBedroomBeds = useCallback(
+      (index: number, beds: SelectedBed[]) => {
+        setBedsByBedroom((prevBeds) => {
+          const updatedBeds = [...prevBeds];
+          updatedBeds[index] = beds; // Update the beds for the specific bedroom index
+          return updatedBeds;
+        });
+      },
+      []
+    );
 
     return (
       <CreationFormSection ref={ref} id={id}>
@@ -220,7 +229,9 @@ const CreateRoom_Capacity_Section = forwardRef<HTMLDivElement, { id: string }>(
                 })}
               />
               {errors?.bedrooms && (
-                <InlineAlert type="error">{errors.bedrooms.message}</InlineAlert>
+                <InlineAlert type="error">
+                  {errors.bedrooms.message}
+                </InlineAlert>
               )}
             </div>
 
@@ -239,7 +250,9 @@ const CreateRoom_Capacity_Section = forwardRef<HTMLDivElement, { id: string }>(
                 })}
               />
               {errors?.bathrooms && (
-                <InlineAlert type="error">{errors.bathrooms.message}</InlineAlert>
+                <InlineAlert type="error">
+                  {errors.bathrooms.message}
+                </InlineAlert>
               )}
             </div>
 
@@ -258,7 +271,9 @@ const CreateRoom_Capacity_Section = forwardRef<HTMLDivElement, { id: string }>(
                 })}
               />
               {errors?.sitting_areas && (
-                <InlineAlert type="error">{errors.sitting_areas.message}</InlineAlert>
+                <InlineAlert type="error">
+                  {errors.sitting_areas.message}
+                </InlineAlert>
               )}
             </div>
 
@@ -277,14 +292,18 @@ const CreateRoom_Capacity_Section = forwardRef<HTMLDivElement, { id: string }>(
                 })}
               />
               {errors?.kitchens && (
-                <InlineAlert type="error">{errors.kitchens.message}</InlineAlert>
+                <InlineAlert type="error">
+                  {errors.kitchens.message}
+                </InlineAlert>
               )}
             </div>
           </div>
 
           {/* Dynamic Bedroom Bed Configuration Section */}
           <div className="col-span-2 mt-6">
-            <h3 className="font-semibold text-lg mb-4">Bed Details by Bedroom</h3>
+            <h3 className="font-semibold text-lg mb-4">
+              Bed Details by Bedroom
+            </h3>
             {/* Render a BedroomBedConfiguration component for each bedroom */}
             {numberOfBedrooms > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -299,54 +318,58 @@ const CreateRoom_Capacity_Section = forwardRef<HTMLDivElement, { id: string }>(
                 ))}
               </div>
             ) : (
-              <p className="text-gray-500 italic">Please specify the number of bedrooms to configure their beds.</p>
+              <p className="text-gray-500 italic">
+                Please specify the number of bedrooms to configure their beds.
+              </p>
             )}
           </div>
 
           {/* Extra Beds Section - FIXES APPLIED HERE */}
           {/* <div className="col-span-2 mt-6"> */}
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="extra_beds">Extra Beds</Label>
+            <Input
+              id="extra_beds"
+              min={0}
+              defaultValue={0}
+              type="number"
+              disabled={disabled}
+              placeholder="# Extra Beds"
+              {...register("extraBeds", {
+                required: true,
+                valueAsNumber: true,
+              })}
+            />
+            {errors?.extraBeds && (
+              <InlineAlert type="error">{errors.extraBeds.message}</InlineAlert>
+            )}
+          </div>
+
+          {extraBeds > 0 && (
             <div className="flex flex-col gap-2">
-              <Label htmlFor="extra_beds">Extra Beds</Label>
+              <Label htmlFor="extra_beds_fee">Extra Bed Fee</Label>
               <Input
-                id="extra_beds"
+                id="extra_beds_fee"
                 min={0}
                 defaultValue={0}
                 type="number"
                 disabled={disabled}
-                placeholder="# Extra Beds" 
-                {...register("extraBeds", {
+                placeholder="Extra Bed Fee"
+                {...register("extraBedFee", {
                   required: true,
                   valueAsNumber: true,
                 })}
               />
-              {errors?.extraBeds && (
-                <InlineAlert type="error">{errors.extraBeds.message}</InlineAlert>
+              {errors?.extraBedFee && (
+                <InlineAlert type="error">
+                  {errors.extraBedFee.message}
+                </InlineAlert>
               )}
             </div>
-
-            {extraBeds > 0 && (
-              < div className="flex flex-col gap-2">
-                <Label htmlFor="extra_beds_fee">Extra Bed Fee</Label>
-                <Input
-                  id="extra_beds_fee"
-                  min={0}
-                  defaultValue={0}
-                  type="number"
-                  disabled={disabled}
-                  placeholder="Extra Bed Fee" 
-                  {...register("extraBedFee", {
-                    required: true,
-                    valueAsNumber: true,
-                  })}
-                />
-                {errors?.extraBedFee && (
-                  <InlineAlert type="error">{errors.extraBedFee.message}</InlineAlert>
-                )}
-              </div>
-            )}
+          )}
           {/* </div> */}
         </CreationFormSectionContent>
-      </CreationFormSection >
+      </CreationFormSection>
     );
   }
 );
