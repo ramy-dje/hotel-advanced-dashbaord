@@ -27,6 +27,7 @@ import { useEffect, useState } from "react";
 import logo_ralf_horizental from "../../app/logo_ralf_horizental.svg";
 import Image from "next/image";
 import { RiPictureInPictureExitFill } from "react-icons/ri";
+import { Banknote, CreditCard, HandCoins } from "lucide-react";
 
 interface Props {}
 
@@ -67,7 +68,11 @@ export default function DashboardSidebar({}: Props) {
         <div className="w-full h-full max-h-[calc(100%-80px)] overflow-y-auto lg:sidebar-scrollbar sm-scrollbar">
           <div className="mt-4 pb-3 3xl:mt-6">
             <ul className="flex flex-col gap-1 px-2 ml-1">
-              <SidebarItem selected={selectedItem == ""} url="/" Icon={HiOutlineHome}>
+              <SidebarItem
+                selected={selectedItem == ""}
+                url="/"
+                Icon={HiOutlineHome}
+              >
                 Home
               </SidebarItem>
 
@@ -81,16 +86,25 @@ export default function DashboardSidebar({}: Props) {
                     Catalog
                   </AccordionSidebarTrigger>
                   <AccordionSidebarContent>
-                    <SidebarSubItem selected={selectedItem == "property-details"} url="/property">
+                    <SidebarSubItem
+                      selected={selectedItem == "property-details"}
+                      url="/property"
+                    >
                       Properties
                     </SidebarSubItem>
-                    <SidebarSubItem selected={selectedItem == "blogs-categories"} url="/property">
+                    <SidebarSubItem
+                      selected={selectedItem == "blogs-categories"}
+                      url="/property"
+                    >
                       Facilities
                       <span className="inline-block bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">
                         Soon
                       </span>
                     </SidebarSubItem>
-                    <SidebarSubItem selected={selectedItem == "blogs-tags"} url="/property/features">
+                    <SidebarSubItem
+                      selected={selectedItem == "blogs-tags"}
+                      url="/property/features"
+                    >
                       House Features
                     </SidebarSubItem>
                   </AccordionSidebarContent>
@@ -105,28 +119,52 @@ export default function DashboardSidebar({}: Props) {
                     Accommodations
                   </AccordionSidebarTrigger>
                   <AccordionSidebarContent>
-                    <SidebarSubItem selected={selectedItem == "rooms"} url="/rooms">
+                    <SidebarSubItem
+                      selected={selectedItem == "rooms"}
+                      url="/rooms"
+                    >
                       Rooms
                     </SidebarSubItem>
-                    <SidebarSubItem selected={selectedItem == "apartments"} url="/apartments">
+                    <SidebarSubItem
+                      selected={selectedItem == "apartments"}
+                      url="/apartments"
+                    >
                       Apartments
                     </SidebarSubItem>
-                    <SidebarSubItem selected={selectedItem == "room-details-room-categories"} url="/room-details/room-categories">
+                    <SidebarSubItem
+                      selected={selectedItem == "room-details-room-categories"}
+                      url="/room-details/room-categories"
+                    >
                       Room Categories
                     </SidebarSubItem>
-                    <SidebarSubItem selected={selectedItem == "room-details-room-features"} url="/room-details/room-features">
+                    <SidebarSubItem
+                      selected={selectedItem == "room-details-room-features"}
+                      url="/room-details/room-features"
+                    >
                       Room Features
                     </SidebarSubItem>
-                    <SidebarSubItem selected={selectedItem == "room-details-room-types"} url="/room-details/room-types">
+                    <SidebarSubItem
+                      selected={selectedItem == "room-details-room-types"}
+                      url="/room-details/room-types"
+                    >
                       Room Types
                     </SidebarSubItem>
-                    <SidebarSubItem selected={selectedItem == "room-details-room-beds"} url="/room-details/room-beds">
+                    <SidebarSubItem
+                      selected={selectedItem == "room-details-room-beds"}
+                      url="/room-details/room-beds"
+                    >
                       Room Beds
                     </SidebarSubItem>
-                    <SidebarSubItem selected={selectedItem == "room-details-room-includes"} url="/room-details/room-includes">
+                    <SidebarSubItem
+                      selected={selectedItem == "room-details-room-includes"}
+                      url="/room-details/room-includes"
+                    >
                       Room Includes
                     </SidebarSubItem>
-                    <SidebarSubItem selected={selectedItem == "rooms-deleted"} url="/rooms/deleted">
+                    <SidebarSubItem
+                      selected={selectedItem == "rooms-deleted"}
+                      url="/rooms/deleted"
+                    >
                       Deleted Rooms
                     </SidebarSubItem>
                   </AccordionSidebarContent>
@@ -150,28 +188,52 @@ export default function DashboardSidebar({}: Props) {
                     Booking
                   </AccordionSidebarTrigger>
                   <AccordionSidebarContent>
-                    <SidebarSubItem selected={selectedItem == "reservations-overview"} url="/reservations/overview">
+                    <SidebarSubItem
+                      selected={selectedItem == "reservations-overview"}
+                      url="/reservations/overview"
+                    >
                       Overview
                     </SidebarSubItem>
-                    <SidebarSubItem selected={selectedItem == "reservations"} url="/reservations">
+                    <SidebarSubItem
+                      selected={selectedItem == "reservations"}
+                      url="/reservations"
+                    >
                       All Bookings
                     </SidebarSubItem>
-                    <SidebarSubItem selected={selectedItem == "reservations-pending"} url="/reservations/pending">
+                    <SidebarSubItem
+                      selected={selectedItem == "reservations-pending"}
+                      url="/reservations/pending"
+                    >
                       Processing
                     </SidebarSubItem>
-                    <SidebarSubItem selected={selectedItem == "reservations-checked-in"} url="/reservations/checked-in">
+                    <SidebarSubItem
+                      selected={selectedItem == "reservations-checked-in"}
+                      url="/reservations/checked-in"
+                    >
                       Checked In
                     </SidebarSubItem>
-                    <SidebarSubItem selected={selectedItem == "reservations-diparted"} url="/reservations/diparted">
+                    <SidebarSubItem
+                      selected={selectedItem == "reservations-diparted"}
+                      url="/reservations/diparted"
+                    >
                       Departers
                     </SidebarSubItem>
-                    <SidebarSubItem selected={selectedItem == "reservations-approved"} url="/reservations/approved">
+                    <SidebarSubItem
+                      selected={selectedItem == "reservations-approved"}
+                      url="/reservations/approved"
+                    >
                       Approved
                     </SidebarSubItem>
-                    <SidebarSubItem selected={selectedItem == "reservations-canceled"} url="/reservations/canceled">
+                    <SidebarSubItem
+                      selected={selectedItem == "reservations-canceled"}
+                      url="/reservations/canceled"
+                    >
                       Canceled
                     </SidebarSubItem>
-                    <SidebarSubItem selected={selectedItem == "reservations-archived"} url="/reservations/archived">
+                    <SidebarSubItem
+                      selected={selectedItem == "reservations-archived"}
+                      url="/reservations/archived"
+                    >
                       Archived
                     </SidebarSubItem>
                   </AccordionSidebarContent>
@@ -186,13 +248,22 @@ export default function DashboardSidebar({}: Props) {
                     CRM
                   </AccordionSidebarTrigger>
                   <AccordionSidebarContent>
-                    <SidebarSubItem selected={selectedItem == "crm-overview"} url="/crm/overview">
+                    <SidebarSubItem
+                      selected={selectedItem == "crm-overview"}
+                      url="/crm/overview"
+                    >
                       Overview
                     </SidebarSubItem>
-                    <SidebarSubItem selected={selectedItem == "crm-contacts"} url="/crm/contacts">
+                    <SidebarSubItem
+                      selected={selectedItem == "crm-contacts"}
+                      url="/crm/contacts"
+                    >
                       Contacts
                     </SidebarSubItem>
-                    <SidebarSubItem selected={selectedItem == "crm-companies"} url="/crm/companies">
+                    <SidebarSubItem
+                      selected={selectedItem == "crm-companies"}
+                      url="/crm/companies"
+                    >
                       Companies
                     </SidebarSubItem>
                   </AccordionSidebarContent>
@@ -207,13 +278,22 @@ export default function DashboardSidebar({}: Props) {
                     Jobs
                   </AccordionSidebarTrigger>
                   <AccordionSidebarContent>
-                    <SidebarSubItem selected={selectedItem == "jobs-submissions"} url="/jobs/submissions">
+                    <SidebarSubItem
+                      selected={selectedItem == "jobs-submissions"}
+                      url="/jobs/submissions"
+                    >
                       Submissions
                     </SidebarSubItem>
-                    <SidebarSubItem selected={selectedItem == "jobs-positions"} url="/jobs/positions">
+                    <SidebarSubItem
+                      selected={selectedItem == "jobs-positions"}
+                      url="/jobs/positions"
+                    >
                       Positions
                     </SidebarSubItem>
-                    <SidebarSubItem selected={selectedItem == "jobs-departments"} url="/jobs/departments">
+                    <SidebarSubItem
+                      selected={selectedItem == "jobs-departments"}
+                      url="/jobs/departments"
+                    >
                       Departments
                     </SidebarSubItem>
                   </AccordionSidebarContent>
@@ -228,14 +308,74 @@ export default function DashboardSidebar({}: Props) {
                     Blog
                   </AccordionSidebarTrigger>
                   <AccordionSidebarContent>
-                    <SidebarSubItem selected={selectedItem == "blogs"} url="/blogs">
+                    <SidebarSubItem
+                      selected={selectedItem == "blogs"}
+                      url="/blogs"
+                    >
                       Posts
                     </SidebarSubItem>
-                    <SidebarSubItem selected={selectedItem == "blogs-categories"} url="/blogs/categories">
+                    <SidebarSubItem
+                      selected={selectedItem == "blogs-categories"}
+                      url="/blogs/categories"
+                    >
                       Categories
                     </SidebarSubItem>
-                    <SidebarSubItem selected={selectedItem == "blogs-tags"} url="/blogs/tags">
+                    <SidebarSubItem
+                      selected={selectedItem == "blogs-tags"}
+                      url="/blogs/tags"
+                    >
                       Tags
+                    </SidebarSubItem>
+                  </AccordionSidebarContent>
+                </AccordionItem>
+                {/* Rate */}
+                {/* render the rate item if the user has the needed permissions */}
+                <AccordionItem value="rate" className="border-none relative">
+                  <AccordionSidebarTrigger
+                    selected={
+                      selectedItem.split("-")[0] == "rate" ||
+                      selectedItem.split("-")[0] == "session"
+                    }
+                    Icon={HandCoins}
+                  >
+                    Rates
+                  </AccordionSidebarTrigger>
+                  <AccordionSidebarContent
+                  >
+                    {/* render the rate item if the user has the needed permissions */}
+
+                    <SidebarSubItem
+                      selected={selectedItem == "rate"}
+                      url="/rate/overview"
+                    >
+                      Rates
+                    </SidebarSubItem>
+
+                    {/* render the offers item if the user has the needed permissions */}
+
+                    <SidebarSubItem
+                      selected={selectedItem == "offers"}
+                      url="/rate/offers"
+                    >
+                      Deals and Offers
+                    </SidebarSubItem>
+
+                    {/* render the seasons item if the user has the needed permissions */}
+
+                    <SidebarSubItem
+                      selected={selectedItem == "seasons"}
+                      url="/rate/seasons"
+                    >
+                      Seasons
+                    </SidebarSubItem>
+
+                    {/* render the categories item if the user has the needed permissions */}
+
+                    <SidebarSubItem
+                      selected={selectedItem == "categories"}
+                      url="/rate/categories"
+                    >
+                      Categories
                     </SidebarSubItem>
                   </AccordionSidebarContent>
                 </AccordionItem>
@@ -249,16 +389,28 @@ export default function DashboardSidebar({}: Props) {
                     Catering
                   </AccordionSidebarTrigger>
                   <AccordionSidebarContent>
-                    <SidebarSubItem selected={selectedItem == "food-dishes"} url="/food/dishes">
+                    <SidebarSubItem
+                      selected={selectedItem == "food-dishes"}
+                      url="/food/dishes"
+                    >
                       Dishes
                     </SidebarSubItem>
-                    <SidebarSubItem selected={selectedItem == "food-menus"} url="/food/menus">
+                    <SidebarSubItem
+                      selected={selectedItem == "food-menus"}
+                      url="/food/menus"
+                    >
                       Menus
                     </SidebarSubItem>
-                    <SidebarSubItem selected={selectedItem == "food-ingredients"} url="/food/ingredients">
+                    <SidebarSubItem
+                      selected={selectedItem == "food-ingredients"}
+                      url="/food/ingredients"
+                    >
                       Ingredients
                     </SidebarSubItem>
-                    <SidebarSubItem selected={selectedItem == "food-types"} url="/food/types">
+                    <SidebarSubItem
+                      selected={selectedItem == "food-types"}
+                      url="/food/types"
+                    >
                       Types
                     </SidebarSubItem>
                   </AccordionSidebarContent>
@@ -276,21 +428,49 @@ export default function DashboardSidebar({}: Props) {
                     Users & Permissions
                   </AccordionSidebarTrigger>
                   <AccordionSidebarContent>
-                    <SidebarSubItem selected={selectedItem == "users"} url="/users">
+                    <SidebarSubItem
+                      selected={selectedItem == "users"}
+                      url="/users"
+                    >
                       Users
                     </SidebarSubItem>
-                    <SidebarSubItem selected={selectedItem == "roles"} url="/roles">
+                    <SidebarSubItem
+                      selected={selectedItem == "roles"}
+                      url="/roles"
+                    >
                       Roles
                     </SidebarSubItem>
                   </AccordionSidebarContent>
                 </AccordionItem>
               </Accordion>
 
-              <SidebarItem selected={selectedItem == "destinations"} url="/destinations" Icon={HiOutlineGlobe}>
+              <SidebarItem
+                selected={selectedItem == "destinations"}
+                url="/destinations"
+                Icon={HiOutlineGlobe}
+              >
                 Destinations
               </SidebarItem>
+              <SidebarItem
+                selected={selectedItem == "taxes"}
+                url="/taxes"
+                Icon={CreditCard}
+              >
+                Taxes
+              </SidebarItem>
+              <SidebarItem
+                selected={selectedItem == "fees"}
+                url="/fees"
+                Icon={Banknote}
+              >
+                Fees
+              </SidebarItem>
 
-              <SidebarItem selected={selectedItem == "setting"} url="/setting" Icon={HiOutlineCog}>
+              <SidebarItem
+                selected={selectedItem == "setting"}
+                url="/setting"
+                Icon={HiOutlineCog}
+              >
                 Setting
               </SidebarItem>
 
