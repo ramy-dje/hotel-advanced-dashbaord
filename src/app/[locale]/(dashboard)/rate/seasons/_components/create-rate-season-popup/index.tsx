@@ -168,6 +168,7 @@ export default function CreateRateSeasonPopup() {
         closeButtonDisabled={isLoading}
         crud_dialog_size
         onEscapeKeyDown={isLoading ? (e) => e.preventDefault() : undefined}
+        className="max-h-[90vh] overflow-auto"
       >
         <form
           spellCheck={false}
