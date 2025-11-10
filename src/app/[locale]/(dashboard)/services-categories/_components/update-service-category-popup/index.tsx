@@ -13,14 +13,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
-  UpdateRoomCategoryValidationSchema,
-  UpdateRoomCategoryValidationSchemaType,
-} from "./update-room-category.schema";
+  UpdateServiceCategoryValidationSchema,
+  UpdateServiceCategoryValidationSchemaType,
+} from "./update-service-category.schema";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import InlineAlert from "@/components/ui/inline-alert";
 import toast from "react-hot-toast";
-import useRoomCategoriesStore from "../../store";
+import useServiceCategoriesStore from "../../store";
 
 interface Props {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -28,23 +28,21 @@ interface Props {
   data: { name: string; id: string } | null;
 }
 
-export default function UpdateRoomCategoryPopup({
+export default function UpdateServiceCategoryPopup({
   data,
   open,
   setOpen,
 }: Props) {
-  // room categories store hook
-  const { update_category } = useRoomCategoriesStore();
+  const { update_category } = useServiceCategoriesStore();
 
   const {
     handleSubmit,
     register,
-    getValues,
     setValue,
     reset,
     formState: { errors },
-  } = useForm<UpdateRoomCategoryValidationSchemaType>({
-    resolver: zodResolver(UpdateRoomCategoryValidationSchema),
+  } = useForm<UpdateServiceCategoryValidationSchemaType>({
+    resolver: zodResolver(UpdateServiceCategoryValidationSchema),
     defaultValues: {
       name: data?.name || "",
     },
@@ -53,13 +51,13 @@ export default function UpdateRoomCategoryPopup({
   const [error, setError] = useState("");
 
   const handleUpdate = async (
-    newdata: UpdateRoomCategoryValidationSchemaType
+    newdata: UpdateServiceCategoryValidationSchemaType
   ) => {
     if (!data?.name || !data?.id) return;
     setIsLoading(true);
     setError("");
     try {
-      const res = await fetch(`/api/room-categories/${data.id}`, {
+      const res = await fetch(`/api/services-categories/${data.id}`, {
         method: "PUT",
         body: JSON.stringify({ name: newdata.name }),
         headers: {
@@ -74,7 +72,7 @@ export default function UpdateRoomCategoryPopup({
       // resting the form
       reset({ name: "" });
       // adding a toast
-      toast.success("Category Was Updated Successful");
+      toast.success("Category Updated Successful");
     } catch (err) {
       if (err == 409) {
         setError("The category name is used before ,please try other one");
@@ -118,7 +116,7 @@ export default function UpdateRoomCategoryPopup({
             className="h-full flex flex-col gap-6  justify-between"
           >
             <DialogHeader>
-              <DialogTitle>Edit Room Category</DialogTitle>
+              <DialogTitle>Edit Category</DialogTitle>
             </DialogHeader>
             <div className="w-full flex flex-col gap-3">
               <div className="grid gap-2">
@@ -126,7 +124,7 @@ export default function UpdateRoomCategoryPopup({
                 <Input
                   disabled={isLoading}
                   id="name"
-                  placeholder="Category Name"
+                  placeholder="Name"
                   {...register("name", { required: true })}
                 />
                 {errors?.name ? (

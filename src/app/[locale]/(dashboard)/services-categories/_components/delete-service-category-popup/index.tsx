@@ -13,7 +13,7 @@ import {
 import { useState } from "react";
 import InlineAlert from "@/components/ui/inline-alert";
 import toast from "react-hot-toast";
-import useRoomCategoriesStore from "../../store";
+import useServiceCategoriesStore from "../../store";
 
 interface Props {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -21,9 +21,8 @@ interface Props {
   id: string | null;
 }
 
-export default function DeleteRoomCategoryPopup({ id, open, setOpen }: Props) {
-  // room categories store hook
-  const { remove_category } = useRoomCategoriesStore();
+export default function DeleteServiceCategoryPopup({ id, open, setOpen }: Props) {
+  const { remove_category } = useServiceCategoriesStore();
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -33,19 +32,19 @@ export default function DeleteRoomCategoryPopup({ id, open, setOpen }: Props) {
     setIsLoading(true);
     setError("");
     try {
-      const res = await fetch(`/api/room-categories/${id}`, {
+      const res = await fetch(`/api/services-categories/${id}`, {
         method: "DELETE",
       });
-      // delete the category from the store
+      // delete the category in the store
       if (res) {
         remove_category(id);
       }
       setOpen(false);
       // adding a toast
-      toast.success("Category Was Delete Successful");
+      toast.success("Category Delete Successful");
     } catch (err) {
       if (err == 403) {
-        setError("Category is used in other rooms and can't be deleted");
+        setError("Category is used other by services and can't be deleted");
       } else {
         setError("Something went wrong ,please try again");
       }
@@ -73,10 +72,10 @@ export default function DeleteRoomCategoryPopup({ id, open, setOpen }: Props) {
         {" "}
         <div className="w-full h-full flex flex-col gap-4 justify-between">
           <DialogHeader>
-            <DialogTitle className="mb-2">Delete Room Category</DialogTitle>
-            <DialogDescription className="text-foreground">
-              Please before you delete this category ,change all rooms that use
-              this category to other one
+            <DialogTitle className="mb-2">Delete Category</DialogTitle>
+            <DialogDescription className="text-accent-foreground">
+              Are you sure you want to delete this category? This action will
+              also remove the category from all associated services.
             </DialogDescription>
           </DialogHeader>
           <div className="w-full flex flex-col gap-3">

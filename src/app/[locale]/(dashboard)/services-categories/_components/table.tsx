@@ -1,8 +1,9 @@
 "use client";
 
 import useServerTable from "@/hooks/use-server-table";
+import ServiceCategoryInterface from "@/interfaces/services-category.interface";
 import { useMemo, useState } from "react";
-import { RoomExtraServices_TableColumns } from "./columns";
+import { ServiceCategories_TableColumns } from "./columns";
 import {
   PageLayoutFilteringHeader,
   PageLayoutTable,
@@ -18,36 +19,35 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import RoomExtraServiceInterface from "@/interfaces/room-extra-services";
+import useServiceCategoriesStore from "../store";
 import useAccess from "@/hooks/use-access";
-import useRoomExtraServicesStore from "../store";
-import DeleteAllSelectedRoomExtraServicesPopup from "./delete-all-selected-popup";
+import DeleteAllSelectedServiceCategoriesPopup from "./delete-all-selected-popup";
 
-// The room extra services table and filters section
+// The blog categories table and filters section
 
 interface Props {
   meta?: Record<any, any>;
 }
 
-export default function RoomExtraServicesTable({ meta }: Props) {
+export default function BlogCategoriesTable({ meta }: Props) {
   // access
   const { has } = useAccess();
-  // room extra_services store hook
+  // blog categories store hook
   const {
-    extra_services_list: data,
-    extra_services_number: total,
+    categories_list: data,
+    categories_number: total,
     set_many,
     set_total,
-  } = useRoomExtraServicesStore();
+  } = useServiceCategoriesStore();
 
   const [searchState, setSearchState] = useState("");
 
-  const { isFetching, totalPages, pagination, setPageRows, table, pageRows } =
-    useServerTable<RoomExtraServiceInterface>({
+  const { isFetching, totalPages, pageRows, pagination, setPageRows, table } =
+    useServerTable<ServiceCategoryInterface>({
       api: {
-        url: "room-details/room-extra-services",
+        url: "services-categories",
       },
-      column: RoomExtraServices_TableColumns,
+      column: ServiceCategories_TableColumns,
       data: data,
       setData: (d) => set_many(d),
       setTotalData: (n) => set_total(n),
@@ -72,19 +72,19 @@ export default function RoomExtraServicesTable({ meta }: Props) {
         <DebouncedSearchInput
           className="w-[22em] max-sm:w-full"
           onDebouncedValueChange={(e) => setSearchState(e as string)}
-          placeholder="Search by service name"
+          placeholder="Search by category name.."
         />
         {/* filtering and toggling */}
         <div className="flex items-center gap-2">
-          {/* the permission to delete many room extra services */}
-          {has(["room_extra_services:delete"]) ? (
-            <DeleteAllSelectedRoomExtraServicesPopup
+          {/* the permission to delete many categories */}
+          {has(["blog_category:delete"]) ? (
+            <DeleteAllSelectedServiceCategoriesPopup
               unSelectedAll={() => table.setRowSelection({})}
               selectedIds={selectedItems}
             />
           ) : null}
 
-          {/* The visible */}
+          {/* The visibalt */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button

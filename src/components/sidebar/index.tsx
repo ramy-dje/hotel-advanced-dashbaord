@@ -27,7 +27,7 @@ import { useEffect, useState } from "react";
 import logo_ralf_horizental from "../../app/logo_ralf_horizental.svg";
 import Image from "next/image";
 import { RiPictureInPictureExitFill } from "react-icons/ri";
-import { Banknote, CreditCard, HandCoins } from "lucide-react";
+import { Banknote, CreditCard, HandCoins, ListPlus } from "lucide-react";
 
 interface Props {}
 
@@ -171,13 +171,35 @@ export default function DashboardSidebar({}: Props) {
                 </AccordionItem>
 
                 {/* Services */}
-                <SidebarItem
-                  selected={selectedItem == "room-details-room-extra-services"}
-                  url="/room-details/room-extra-services"
-                  Icon={HiOutlineArchive}
+                 <AccordionItem
+                  value="extra-services"
+                  className="border-none relative"
                 >
-                  Services
-                </SidebarItem>
+                  <AccordionSidebarTrigger
+                    selected={selectedItem.split("-")[0] == "extra-services"}
+                    Icon={ListPlus}
+                  >
+                    Extra Services
+                  </AccordionSidebarTrigger>
+                  <AccordionSidebarContent>
+                    <SidebarSubItem
+                      selected={
+                        selectedItem == "room-details-room-extra-services"
+                      }
+                      url="/room-details/room-extra-services"
+                    >
+                      Extra Services
+                    </SidebarSubItem>
+                    <SidebarSubItem
+                      selected={
+                        selectedItem == "room-details-room-extra-services"
+                      }
+                      url="/services-categories"
+                    >
+                      Categories
+                    </SidebarSubItem>
+                  </AccordionSidebarContent>
+                </AccordionItem>
 
                 {/* Booking */}
                 <AccordionItem value="reservations" className="border-none">

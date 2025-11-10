@@ -14,37 +14,31 @@ import {
   BreadcrumbSeparator,
   BreadcrumbLink,
 } from "@/components/ui/breadcrumb";
+import { useState } from "react";
 import { Link } from "@/i18n/routing";
-import { useState, useEffect } from "react";
-import RoomExtraServicesTable from "./_components/table";
-import CreateRoomExtraServicePopup from "./_components/create-room-extra-service-popup";
-import DeleteRoomExtraServicePopup from "./_components/delete-room-extra-service-popup";
-import { UpdateRoomExtraServiceValidationSchemaType } from "./_components/update-room-extra-service-popup/update-room-extra-service.schema";
-import UpdateRoomExtraServicePopup from "./_components/update-room-extra-service-popup";
+import BlogCategoriesTable from "./_components/table";
+import CreateServiceCategoryPopup from "./_components/create-service-category-popup";
+import DeleteServiceCategoryPopup from "./_components/delete-service-category-popup";
+import UpdateServiceCategoryPopup from "./_components/update-service-category-popup";
 import useAccess from "@/hooks/use-access";
-import useRoomExtraServicesStore from "./store";
-import { crud_get_all_taxes, crud_get_tax } from "@/lib/curd/taxes";
-import { crud_get_all_crm_contacts } from "@/lib/curd/crm-contact";
 
-export default function RoomCategoriesPage() {
+export default function BlogCategoriesPage() {
   // access info
   const { has } = useAccess();
   // dialogs open states
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [updateDialogOpen, setUpdateDialogOpen] = useState(false);
-  // selected categories to update and delete
-  const [updateSelected, setUpdateSelected] = useState<
-    (UpdateRoomExtraServiceValidationSchemaType & { id: string }) | null
-  >(null);
+  // selected ingredient to update and delete
+  const [updateSelected, setUpdateSelected] = useState<{
+    name: string;
+    id: string;
+  } | null>(null);
   const [deleteSelected, setDeleteSelected] = useState<string | null>(null);
 
   // methods
-  const handleUpdate = (
-    id: string,
-    data: UpdateRoomExtraServiceValidationSchemaType
-  ) => {
-    if (id && data) {
-      setUpdateSelected({ id, ...data });
+  const handleUpdate = (id: string, name: string) => {
+    if (id && name) {
+      setUpdateSelected({ id, name });
       setUpdateDialogOpen(true);
     }
   };
@@ -56,33 +50,20 @@ export default function RoomCategoriesPage() {
     }
   };
 
-  // room extra_services store hook
-  const { set_existing_taxes,set_existing_categories,set_existing_employees } = useRoomExtraServicesStore();
-  useEffect(() => {
-    (async () => {
-      const taxes = await crud_get_all_taxes({page:0,size:100});
-      set_existing_taxes(taxes);
-      const categories = await fetch("/api/service-categories?page=0&size=100").then(res => res.json());
-      set_existing_categories(categories);
-      const employees = await crud_get_all_crm_contacts({page:0,size:100,work_company:"ralf"});
-      set_existing_employees(employees);
-    })();
-  }, []);
-
   return (
     <>
       {/* the update category dialog */}
-      {has(["room_extra_services:update"]) ? (
-        <UpdateRoomExtraServicePopup
+      {has(["service_category:update"]) ? (
+        <UpdateServiceCategoryPopup
           data={updateSelected}
           open={updateDialogOpen}
           setOpen={setUpdateDialogOpen}
         />
       ) : null}
 
-      {/* the delete extra service dialog */}
-      {has(["room_extra_services:delete"]) ? (
-        <DeleteRoomExtraServicePopup
+      {/* the delete category dialog */}
+      {has(["service_category:delete"]) ? (
+        <DeleteServiceCategoryPopup
           id={deleteSelected}
           open={deleteDialogOpen}
           setOpen={setDeleteDialogOpen}
@@ -96,7 +77,7 @@ export default function RoomCategoriesPage() {
           {/* name and breadcrumbs */}
           <PageLayoutHeaderNameAndBreadcrumbs>
             <PageLayoutHeaderNameAndBreadcrumbsTitle className="text-2xl font-semibold">
-              Services
+              Categories
             </PageLayoutHeaderNameAndBreadcrumbsTitle>
             {/* breadcrumbs */}
             <Breadcrumb>
@@ -111,8 +92,14 @@ export default function RoomCategoriesPage() {
                     <span className="size-1 block rounded-full bg-muted-foreground/50" />
                   }
                 />
+                <BreadcrumbItem>Services</BreadcrumbItem>
+                <BreadcrumbSeparator
+                  children={
+                    <span className="size-1 block rounded-full bg-muted-foreground/50" />
+                  }
+                />
                 <BreadcrumbItem>
-                  <BreadcrumbPage>Services</BreadcrumbPage>
+                  <BreadcrumbPage>Categories</BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
@@ -120,15 +107,22 @@ export default function RoomCategoriesPage() {
 
           {/* actions */}
           <PageLayoutHeaderActions>
-            {/* create extra service dialog */}
-            {has(["room_extra_services:create"]) ? (
-              <CreateRoomExtraServicePopup />
-            ) : null}
+            {/* <Button
+              variant="outline"
+              disabled
+              className="w-1/2 md:w-auto gap-2 font-normal"
+            >
+              <HiDownload className="size-4 rotate-180 text-accent-foreground/70" />{" "}
+              Export
+            </Button> */}
+
+            {/* create category dialog (rendered with the needed permissions) */}
+            {has(["service_category:create"]) ? <CreateServiceCategoryPopup /> : null}
           </PageLayoutHeaderActions>
         </PageLayoutHeader>
 
         {/* the table header and table section */}
-        <RoomExtraServicesTable meta={{ handleUpdate, handleDelete, has }} />
+        <BlogCategoriesTable meta={{ handleUpdate, handleDelete, has }} />
       </PageLayout>
     </>
   );

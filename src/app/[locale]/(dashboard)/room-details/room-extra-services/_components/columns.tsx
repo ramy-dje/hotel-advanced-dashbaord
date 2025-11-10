@@ -57,9 +57,9 @@ export const RoomExtraServices_TableColumns: ColumnDef<RoomExtraServiceInterface
       footer: "NAME",
     },
     {
-      header: "BOOKING NAME",
-      accessorKey: "booking_name",
-      footer: "BOOKING NAME",
+      header: "CATEGORY",
+      accessorKey: "category.name",
+      footer: "CATEGORY",
     },
     {
       header: "PRICE",
@@ -94,10 +94,7 @@ export const RoomExtraServices_TableColumns: ColumnDef<RoomExtraServiceInterface
                 size="icon"
                 onClick={() =>
                   handleUpdate(c.row.original.id, {
-                    booking_name: c.row.original.booking_name,
-                    name: c.row.original.name,
-                    icon: c.row.original.icon,
-                    price: c.row.original.price,
+                    ...c.row.original
                   })
                 }
                 className="size-7 text-foreground/80 transition-all hover:text-primary hover:border-primary"

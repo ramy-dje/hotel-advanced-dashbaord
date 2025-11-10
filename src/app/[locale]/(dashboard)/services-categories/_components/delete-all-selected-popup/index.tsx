@@ -9,52 +9,73 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
 } from "@/components/ui/dialog";
 import { useState } from "react";
 import InlineAlert from "@/components/ui/inline-alert";
 import toast from "react-hot-toast";
-import useRoomCategoriesStore from "../../store";
+import { HiOutlineTrash } from "react-icons/hi";
+
+import useBlogCategoriesStore from "../../store";
 
 interface Props {
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  open: boolean;
-  id: string | null;
+  selectedIds: string[];
+  unSelectedAll: () => void;
 }
 
-export default function DeleteRoomCategoryPopup({ id, open, setOpen }: Props) {
-  // room categories store hook
-  const { remove_category } = useRoomCategoriesStore();
+export default function DeleteAllSelectedBlogCategoriesPopup({
+  selectedIds,
+  unSelectedAll,
+}: Props) {
+  // rooms store
+  const { remove_many_categories } = useBlogCategoriesStore();
+  const [open, setOpen] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
   const handleDelete = async () => {
-    if (!id) return;
+    if (selectedIds.length == 0) return;
     setIsLoading(true);
     setError("");
     try {
-      const res = await fetch(`/api/room-categories/${id}`, {
+      // delete many categories
+      const res = await fetch("/api/services-categories", {
         method: "DELETE",
+        body: JSON.stringify({ ids: selectedIds }),
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
-      // delete the category from the store
+      // remove the categories from the store
       if (res) {
-        remove_category(id);
+        remove_many_categories(selectedIds);
       }
+      // unSelect (to remove selection form the  table)
+      unSelectedAll();
+      // close the popup
       setOpen(false);
       // adding a toast
-      toast.success("Category Was Delete Successful");
+      toast.success("All Selected Categories Where Deleted Successfully");
     } catch (err) {
-      if (err == 403) {
-        setError("Category is used in other rooms and can't be deleted");
-      } else {
-        setError("Something went wrong ,please try again");
-      }
+      setError("Something went wrong ,please try again");
     }
     setIsLoading(false);
   };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button
+          size="sm"
+          disabled={selectedIds.length == 0}
+          variant="outline"
+          className="gap-2 font-normal disabled:opacity-50 border-destructive hover:bg-transparent bg-transparent hover:text-destructive text-destructive"
+        >
+          <HiOutlineTrash className="size-4" /> delete all {selectedIds.length}{" "}
+          selected
+        </Button>
+      </DialogTrigger>
       <DialogContent
         preventOutsideClose={isLoading}
         closeButtonDisabled={isLoading}
@@ -73,10 +94,12 @@ export default function DeleteRoomCategoryPopup({ id, open, setOpen }: Props) {
         {" "}
         <div className="w-full h-full flex flex-col gap-4 justify-between">
           <DialogHeader>
-            <DialogTitle className="mb-2">Delete Room Category</DialogTitle>
-            <DialogDescription className="text-foreground">
-              Please before you delete this category ,change all rooms that use
-              this category to other one
+            <DialogTitle className="mb-2">
+              Delete All {selectedIds.length} Selected Categories
+            </DialogTitle>
+            <DialogDescription className="text-card-foreground">
+              Once deleted, these categories will be remove the posts which use
+              them.
             </DialogDescription>
           </DialogHeader>
           <div className="w-full flex flex-col gap-3">
@@ -101,7 +124,7 @@ export default function DeleteRoomCategoryPopup({ id, open, setOpen }: Props) {
               onClick={handleDelete}
               type="button"
             >
-              Delete
+              Delete all
             </Button>
           </DialogFooter>
         </div>

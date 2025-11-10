@@ -21,7 +21,6 @@ import {
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import InlineAlert from "@/components/ui/inline-alert";
-import { crud_create_roomCategory } from "@/lib/curd/room-categories";
 import toast from "react-hot-toast";
 import useRoomCategoriesStore from "../../store";
 
@@ -47,7 +46,13 @@ export default function CreateRoomCategoryPopup() {
     setIsLoading(true);
     setError("");
     try {
-      const res = await crud_create_roomCategory(data.name);
+      const res = await fetch("/api/room-categories", {
+        method: "POST",
+        body: JSON.stringify({ name: data.name }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       // add the new category to the store
       if (res) {
         add_category(res);

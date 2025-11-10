@@ -8,73 +8,53 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
 } from "@/components/ui/dialog";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { HiOutlinePlus } from "react-icons/hi";
 import {
-  UpdateRoomCategoryValidationSchema,
-  UpdateRoomCategoryValidationSchemaType,
-} from "./update-room-category.schema";
+  CreateServiceCategoryValidationSchemaType,
+  CreateServiceCategoryValidationSchema,
+} from "./create-service-category.schema";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import InlineAlert from "@/components/ui/inline-alert";
 import toast from "react-hot-toast";
-import useRoomCategoriesStore from "../../store";
+import useBlogCategoriesStore from "../../store";
 
-interface Props {
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  open: boolean;
-  data: { name: string; id: string } | null;
-}
-
-export default function UpdateRoomCategoryPopup({
-  data,
-  open,
-  setOpen,
-}: Props) {
-  // room categories store hook
-  const { update_category } = useRoomCategoriesStore();
+export default function CreateBlogCategoryPopup() {
+  const { add_category } = useBlogCategoriesStore();
 
   const {
     handleSubmit,
     register,
-    getValues,
-    setValue,
     reset,
     formState: { errors },
-  } = useForm<UpdateRoomCategoryValidationSchemaType>({
-    resolver: zodResolver(UpdateRoomCategoryValidationSchema),
-    defaultValues: {
-      name: data?.name || "",
-    },
+  } = useForm<CreateServiceCategoryValidationSchemaType>({
+    resolver: zodResolver(CreateServiceCategoryValidationSchema),
   });
+  const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleUpdate = async (
-    newdata: UpdateRoomCategoryValidationSchemaType
-  ) => {
-    if (!data?.name || !data?.id) return;
+  const handleCreate = async (data: CreateServiceCategoryValidationSchemaType) => {
     setIsLoading(true);
     setError("");
     try {
-      const res = await fetch(`/api/room-categories/${data.id}`, {
-        method: "PUT",
-        body: JSON.stringify({ name: newdata.name }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      // update the category in the store
+      const res = await fetch("/api/services-categories", {
+        method: "POST"});
+      // add the new category to the store
       if (res) {
-        update_category(res.id, res);
+        add_category(res);
       }
+      // closing the dialog
       setOpen(false);
       // resting the form
       reset({ name: "" });
       // adding a toast
-      toast.success("Category Was Updated Successful");
+      toast.success("Category created Successful");
     } catch (err) {
       if (err == 409) {
         setError("The category name is used before ,please try other one");
@@ -85,22 +65,16 @@ export default function UpdateRoomCategoryPopup({
     setIsLoading(false);
   };
 
-  useEffect(() => {
-    // update the state
-    if (data) {
-      // setting the name
-      setValue("name", data.name);
-    }
-  }, [data]);
-
   return (
     <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button className="gap-2 font-normal w-1/2 md:w-auto">
+          <HiOutlinePlus className="size-4" /> Add Category
+        </Button>
+      </DialogTrigger>
       <DialogContent
         preventOutsideClose={isLoading}
         closeButtonDisabled={isLoading}
-        onOpenAutoFocus={(e) => {
-          e.preventDefault();
-        }}
         className="max-h-[16em]"
         onEscapeKeyDown={
           isLoading
@@ -113,12 +87,12 @@ export default function UpdateRoomCategoryPopup({
         {" "}
         <div className="w-full h-full">
           <form
-            onSubmit={handleSubmit(handleUpdate)}
             spellCheck={false}
-            className="h-full flex flex-col gap-6  justify-between"
+            onSubmit={handleSubmit(handleCreate)}
+            className="h-full flex flex-col gap-6 justify-between"
           >
             <DialogHeader>
-              <DialogTitle>Edit Room Category</DialogTitle>
+              <DialogTitle>Create New Service Category</DialogTitle>
             </DialogHeader>
             <div className="w-full flex flex-col gap-3">
               <div className="grid gap-2">
@@ -126,7 +100,7 @@ export default function UpdateRoomCategoryPopup({
                 <Input
                   disabled={isLoading}
                   id="name"
-                  placeholder="Category Name"
+                  placeholder="Name"
                   {...register("name", { required: true })}
                 />
                 {errors?.name ? (
@@ -150,12 +124,12 @@ export default function UpdateRoomCategoryPopup({
                 </Button>
               </DialogClose>
               <Button
-                className="w-[8.5em]"
+                className="w-[6em]"
                 disabled={isLoading}
                 isLoading={isLoading}
                 type="submit"
               >
-                Save Changes
+                Create
               </Button>
             </DialogFooter>
           </form>
